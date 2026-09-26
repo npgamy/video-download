@@ -218,3 +218,28 @@ Prvobitne stavke:
 
 Exit gate: `.exe` radi na čistom Windowsu bez instaliranog Pythona. — **ispunjeno** 24.9.2026:
 Ahmedov prijatelj potvrdio da instaler i program rade na njegovom računaru.
+
+## Faza 4 — Planirano (Ahmed, 26.9.2026)
+
+- [ ] **Redizajn sajta** po uzoru na windows.com, interaktivan i sa animacijama (Ahmed 26.9.2026). Prvo
+  prototip engleske početne stranice na odobrenje, pa svih 5 jezika. Uslovi: bez kolačića, analitike i
+  tuđih skripti (obećanje iz privatnosti); animacije isključene kod `prefers-reduced-motion`; radi na
+  telefonu; bez Microsoftovih znakova, slika i naziva (samo stil, ne kopija). Početne stranice
+  prelaze iz ručno pisanog HTML-a u šablon u `tools/build_site.py` (jedan raspored, tekstovi po jeziku).
+- [ ] **Kod u privatni repo, izdanja ostaju javna** (Ahmed 26.9.2026: „za sada neka ovako, ali treba
+  planirati"). Nacrt:
+  - `abnps/video-download` ostaje JAVAN: izdanja (instaleri, release.json/.sig, Mac .dmg), sajt
+    (GitHub Pages), Issues, Firefox `updates.json`. Instalirane verzije i dalje čitaju izdanja odavde,
+    pa ništa ne puca.
+  - Novi PRIVATNI `abnps/video-download-src`: sav kod s historijom, testovi, build, dokumentacija.
+  - Build/izdanje: instaler se pravi iz privatnog repoa, izdanje i sajt se objavljuju u javnom
+    (token s pravom pisanja samo za javni repo; pravi ga Ahmed). Mac .dmg: pravi se u privatnom
+    samo pri izdanju (štedi besplatne minute: Mac minuta se računa 10×), dodaje se javnom izdanju.
+  - Javni repo se očisti na sajt + README (izdanja ostaju). Kod koji je već bio javan ostaje u
+    tuđim kopijama — privatnost važi od promjene.
+  - Procjena: ~1 dan posla + Ahmedov token; prvo izdanje poslije promjene pratiti do kraja.
+- [ ] **Mac verzija**: proba kod Ahmedovog prijatelja (paket i uputstvo u `C:\Video Downloader\Build\macos`),
+  pa popravke po izvještaju; kasnije Appleov potpis i notarizacija kad prilozi pokriju ($99 godišnje).
+- [ ] **Video Toolkit Pro** (ideja): tek poslije razgovora s poreskim savjetnikom (Njemačka ili Srbija)
+  i jasnog odgovora „zašto bi neko platio" pored besplatnih HandBrake/LosslessCut/Shutter Encoder.
+  Od početka u privatnom repou.
