@@ -31,7 +31,7 @@ jobs:
         env:
           TAG: ${{ github.event.release.tag_name }}
         run: |
-          VERSION=$(python3 -c "import re; print(re.search(r'\"(.+)\"', open('videodl/__init__.py').read()).group(1))")
+          VERSION=$(python3 -c 'import re,pathlib; print(re.search(r"__version__ = \"([^\"]+)\"", pathlib.Path("videodl/__init__.py").read_text(encoding="utf-8")).group(1))')
           test "v$VERSION" = "$TAG" || { echo "Tag $TAG ne odgovara verziji $VERSION"; exit 1; }
       - uses: actions/setup-python@v5
         with:
