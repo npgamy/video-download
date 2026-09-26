@@ -91,7 +91,8 @@ ostaju tehnički (engleski). Izvor: vault `CLAUDE.md`, odjeljak „Jezik i stil"
   je obavezan. Testovi koji zavise od sistema zadaju `platform=`/`updater.PLATFORM`/`i18n.PLATFORM` sami.
 - Mac beta je JAVNA od 26.9.2026 (Ahmed: „Beta je dobra ideja"): blok na početnoj stranici (MAC_TEXT u
   `tools/build_site.py`, oznaka `<!-- mac -->`), link na stalnu kopiju `VideoDownload-macOS-arm64.dmg` u
-  posljednjem izdanju. Zato SVAKO izdanje mora imati i Mac .dmg (artefakt „Mac paket" za taj commit) — vidi README.
+  posljednjem izdanju. Zato SVAKO izdanje mora imati i Mac .dmg: dodaje ga sam posao „Mac paket" na
+  `release: published` (provjeri da je prošao) — vidi README.
   Mac tekstovi u programu: ključ + `_mac` (MAC_VARIANTS u `i18n.py`), prečice Ctrl/Strg → ⌘.
 - Firefox dodatak (26.9.2026, „nastaviti ekstenziju"): isti kod iz `extension/`, manifest pravi
   `python tools/build_firefox.py` (gecko ID `video-download@abnps.github.io`, background.scripts umjesto

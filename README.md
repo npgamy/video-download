@@ -56,14 +56,11 @@ Glavni jezik je engleski; bosanski, njemački, španski i francuski su u `site/b
 gh release create v<verzija> "<instaler>.exe" "<instaler>.exe.sha256" "<folder instalera>\release.json" "<folder instalera>\release.json.sig" "<folder instalera>\VideoDownload-Setup.exe" --repo abnps/video-download --title "Video Download <verzija>" --notes-file "<folder instalera>\release-notes.md"
 ```
 
-4. **Mac (beta) ide uz svako izdanje**, inače link „Preuzmi za Mac" na sajtu
-   (`releases/latest/download/VideoDownload-macOS-arm64.dmg`) prestaje raditi. GitHub posao „Mac paket"
-   (`.github/workflows/macos.yml`) na svaki push na `main` napravi `.dmg`; preuzmi artefakt tog commita
-   (`gh run download <id>`) i dodaj ga izdanju, uz kopiju bez verzije:
-
-```
-gh release upload v<verzija> "VideoDownload-macOS-arm64-<verzija>.dmg" "VideoDownload-macOS-arm64-<verzija>.dmg.sha256" "VideoDownload-macOS-arm64.dmg" --repo abnps/video-download
-```
+4. **Mac (beta) se dodaje sam.** Kad se izdanje objavi, GitHub posao „Mac paket" (`.github/workflows/macos.yml`)
+   iz taga napravi `.dmg` (uz sve testove) i doda ga izdanju, zajedno sa stalnom kopijom
+   `VideoDownload-macOS-arm64.dmg` za link na sajtu. Traje ~15 minuta; do tada Mac dugme na sajtu vraća 404.
+   Provjeri da je posao prošao (`gh run list --workflow macos.yml`); ako nije, izdanje nema Mac verziju
+   i Mac dugme ne radi dok se ne popravi i ponovo pokrene (`gh run rerun <id>`).
 
 5. Prethodno izdanje sakrij kao nacrt, da javno ostane samo posljednje:
 

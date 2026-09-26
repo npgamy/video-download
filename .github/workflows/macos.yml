@@ -1,10 +1,13 @@
 # Mac (Apple Silicon) paket: svi testovi na Macu, pa .app → .dmg (bez Appleovog potpisa, beta).
-# Rezultat je artefakt ovog pokretanja (ne javno izdanje); izdanje se objavljuje ručno kad Mac proba prođe.
+# Na push: .dmg je samo artefakt pokretanja. Kad se objavi izdanje (release published), isti posao napravi
+# .dmg iz taga izdanja i sam ga doda izdanju, uz stalnu kopiju za link na sajtu (releases/latest/download/…).
 name: Mac paket
 
 on:
   push:
     branches: [main, macos]
+  release:
+    types: [published]
   workflow_dispatch:
 
 permissions:
@@ -14,6 +17,8 @@ jobs:
   macos-arm64:
     runs-on: macos-15
     timeout-minutes: 45
+    permissions:
+      contents: write  # samo za dodavanje .dmg-a izdanju
     env:
       QT_QPA_PLATFORM: offscreen
       PYTHONIOENCODING: utf-8
@@ -21,6 +26,13 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build folder (van repoa)
         run: echo "VIDEODL_BUILD_DIR=$RUNNER_TEMP/build" >> "$GITHUB_ENV"
+      - name: Verzija u kodu mora odgovarati tagu izdanja
+        if: github.event_name == 'release'
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          VERSION=$(python3 -c "import re; print(re.search(r'\"(.+)\"', open('videodl/__init__.py').read()).group(1))")
+          test "v$VERSION" = "$TAG" || { echo "Tag $TAG ne odgovara verziji $VERSION"; exit 1; }
       - uses: actions/setup-python@v5
         with:
           python-version: "3.14"
@@ -44,3 +56,14 @@ jobs:
             ${{ runner.temp }}/build/macos/self-test.json
             ${{ runner.temp }}/build/checks.txt
           if-no-files-found: warn
+      - name: Dodaj .dmg izdanju
+        if: github.event_name == 'release'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          cd "$RUNNER_TEMP/build/macos"
+          DMG="VideoDownload-macOS-arm64-${TAG#v}.dmg"
+          shasum -a 256 -c "$DMG.sha256"
+          cp "$DMG" VideoDownload-macOS-arm64.dmg
+          gh release upload "$TAG" "$DMG" "$DMG.sha256" VideoDownload-macOS-arm64.dmg --clobber --repo "$GITHUB_REPOSITORY"
