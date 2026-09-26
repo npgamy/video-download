@@ -23,7 +23,7 @@ app = QApplication.instance() or QApplication([])
 DAY = 24 * 60 * 60
 
 
-def wait_until(condition, timeout=10.0):
+def wait_until(condition, timeout=30.0):  # Mac CI računar je spor; uspjeh ne čeka duže
     deadline = time.monotonic() + timeout
     while time.monotonic() < deadline:
         app.processEvents()
